@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Recipe Recommender</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #bc56de;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background: #6f50cb;
+            color: white;
+        }
+        tr:hover {
+            background: #fff3e0;
+        }
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .Beginner     { background: #fff9c4; color: #ecad1b; }
+        .Intermediate { background: #c8e6c9; color: #1b5e20; }
+        .Advanced     { background: #ffccbc; color: #bf360c; }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <h1>Recipe Recommender</h1>
+
+    <p v-if="loading">Loading recipes...</p>
+    <p v-if="error" style="color:red">{{ error }}</p>
+
+    <table v-if="recipes.length > 0">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Cuisines</th>
+            <th>Difficulty</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="recipe in recipes" :key="recipe.id">
+            <td>{{ recipe.id }}</td>
+            <td>{{ recipe.title }}</td>
+            <td>{{ recipe.cuisines.join(', ') }}</td>
+            <td>
+                    <span class="badge" :class="recipe.difficulty">
+                        {{ recipe.difficulty }}
+                    </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const { createApp, ref, onMounted } = Vue;
+
+    createApp({
+        setup() {
+            const recipes = ref([]);
+            const loading = ref(true);
+            const error = ref(null);
+
+            onMounted(async () => {
+                try {
+                    const response = await fetch('/api/recipes');
+                    recipes.value = await response.json();
+                } catch (e) {
+                    error.value = 'Failed to load recipes.';
+                } finally {
+                    loading.value = false;
+                }
+            });
+
+            return { recipes, loading, error };
+        }
+    }).mount('#app');
+</script>
+
+</body>
+</html>

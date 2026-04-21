@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<data>
+    <recipes>
+        <recipe id="1">
+            <title>Creamy pumpkin pasta</title>
+            <cuisines>
+                <cuisine>Spanish</cuisine>
+                <cuisine>Mexican</cuisine>
+            </cuisines>
+            <difficulty>Advanced</difficulty>
+        </recipe>
+        <recipe id="2">
+            <title>Sausage, mustard &amp; apple hash</title>
+            <cuisines>
+                <cuisine>Italian</cuisine>
+                <cuisine>Thai</cuisine>
+            </cuisines>
+            <difficulty>Intermediate</difficulty>
+        </recipe>
+        <recipe id="3">
+            <title>Mushroom stroganoff</title>
+            <cuisines>
+                <cuisine>Chinese</cuisine>
+                <cuisine>Thai</cuisine>
+            </cuisines>
+            <difficulty>Beginner</difficulty>
+        </recipe>
+        <recipe id="4">
+            <title>Beetroot &amp; feta pasta</title>
+            <cuisines>
+                <cuisine>Indian</cuisine>
+                <cuisine>Greek</cuisine>
+            </cuisines>
+            <difficulty>Beginner</difficulty>
+        </recipe>
+        <recipe id="5">
+            <title>Pork &amp; apple burgers</title>
+            <cuisines>
+                <cuisine>Indian</cuisine>
+                <cuisine>American</cuisine>
+            </cuisines>
+            <difficulty>Advanced</difficulty>
+        </recipe>
+        <recipe id="6">
+            <title>Mushroom soup</title>
+            <cuisines>
+                <cuisine>Japanese</cuisine>
+                <cuisine>Mexican</cuisine>
+            </cuisines>
+            <difficulty>Beginner</difficulty>
+        </recipe>
+        <recipe id="7">
+            <title>Squash &amp; halloumi flatbreads with sweet chilli beetroot jam</title>
+            <cuisines>
+                <cuisine>Mediterranean</cuisine>
+                <cuisine>Indian</cuisine>
+            </cuisines>
+            <difficulty>Advanced</difficulty>
+        </recipe>
+        <recipe id="8">
+            <title>Simple squash risotto</title>
+            <cuisines>
+                <cuisine>Japanese</cuisine>
+                <cuisine>Thai</cuisine>
+            </cuisines>
+            <difficulty>Intermediate</difficulty>
+        </recipe>
+        <recipe id="9">
+            <title>Slow cooker spiced root &amp; lentil casserole</title>
+            <cuisines>
+                <cuisine>Japanese</cuisine>
+                <cuisine>Asian</cuisine>
+            </cuisines>
+            <difficulty>Advanced</difficulty>
+        </recipe>
+        <recipe id="10">
+            <title>Squash &amp; spinach fusilli with pecans</title>
+            <cuisines>
+                <cuisine>Italian</cuisine>
+                <cuisine>Asian</cuisine>
+            </cuisines>
+            <difficulty>Beginner</difficulty>
+        </recipe>
+        <recipe id="11">
+            <title>Easy vegetable curry</title>
+            <cuisines>
+                <cuisine>Mediterranean</cuisine>
+                <cuisine>Thai</cuisine>
+            </cuisines>
+            <difficulty>Beginner</difficulty>
+        </recipe>
+        <recipe id="12">
+            <title>Sausage &amp; butternut squash shells</title>
+            <cuisines>
+                <cuisine>Japanese</cuisine>
+                <cuisine>Indian</cuisine>
+            </cuisines>
+            <difficulty>Intermediate</difficulty>
+        </recipe>
+        <recipe id="13">
+            <title>Autumn vegetable soup with cheesy toasts</title>
+            <cuisines>
+                <cuisine>British</cuisine>
+                <cuisine>French</cuisine>
+            </cuisines>
+            <difficulty>Intermediate</difficulty>
+        </recipe>
+        <recipe id="14">
+            <title>Mushroom &amp; sausage pasta</title>
+            <cuisines>
+                <cuisine>Greek</cuisine>
+                <cuisine>Asian</cuisine>
+            </cuisines>
+            <difficulty>Intermediate</difficulty>
+        </recipe>
+        <recipe id="15">
+            <title>Creamy pumpkin &amp; lentil soup</title>
+            <cuisines>
+                <cuisine>Middle Eastern</cuisine>
+                <cuisine>French</cuisine>
+            </cuisines>
+            <difficulty>Intermediate</difficulty>
+        </recipe>
+        <recipe id="16">
+            <title>Curried parsnip soup</title>
+            <cuisines>
+                <cuisine>Mexican</cuisine>
+                <cuisine>Greek</cuisine>
+            </cuisines>
+            <difficulty>Beginner</difficulty>
+        </recipe>
+        <recipe id="17">
+            <title>Red onion gravy</title>
+            <cuisines>
+                <cuisine>Middle Eastern</cuisine>
+                <cuisine>Thai</cuisine>
+            </cuisines>
+            <difficulty>Advanced</difficulty>
+        </recipe>
+        <recipe id="18">
+            <title>Butternut squash pilaf</title>
+            <cuisines>
+                <cuisine>Italian</cuisine>
+                <cuisine>Mediterranean</cuisine>
+            </cuisines>
+            <difficulty>Intermediate</difficulty>
+        </recipe>
+        <recipe id="19">
+            <title>Sausage &amp; maple swede traybake</title>
+            <cuisines>
+                <cuisine>Japanese</cuisine>
+                <cuisine>Middle Eastern</cuisine>
+            </cuisines>
+            <difficulty>Beginner</difficulty>
+        </recipe>
+        <recipe id="20">
+            <title>Cauliflower mac &amp; cheese</title>
+            <cuisines>
+                <cuisine>Middle Eastern</cuisine>
+                <cuisine>Spanish</cuisine>
+            </cuisines>
+            <difficulty>Beginner</difficulty>
+        </recipe>
+        <recipe id="21">
+            <title>Mustardy pork &amp; apples</title>
+            <cuisines>
+                <cuisine>American</cuisine>
+                <cuisine>Middle Eastern</cuisine>
+            </cuisines>
+            <difficulty>Beginner</difficulty>
+        </recipe>
+    </recipes>
+    <users>
+        <user id="1">
+            <name>John</name>
+            <surname>Doe</surname>
+            <cookingSkillLevel>Intermediate</cookingSkillLevel>
+            <preferredCuisine>Italian</preferredCuisine>
+        </user>
+    </users>
+</data>
