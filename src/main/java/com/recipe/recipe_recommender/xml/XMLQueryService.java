@@ -97,4 +97,22 @@ public class XMLQueryService {
         parse(nodes, recipes);
         return recipes.getFirst();
     }
+
+    public List<Recipe> getRecipesByCuisine(String cuisine) {
+        List<Recipe> result = new ArrayList<>();
+        try {
+            javax.xml.parsers.DocumentBuilderFactory factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+            org.w3c.dom.Document doc = factory.newDocumentBuilder().parse(new java.io.File(Constants.XML_OUTPUT_PATH));
+
+            javax.xml.xpath.XPath xPath = javax.xml.xpath.XPathFactory.newInstance().newXPath();
+            String expression = String.format(Constants.XPATH_RECIPES_BY_CUISINE, cuisine);
+
+            org.w3c.dom.NodeList nodes = (org.w3c.dom.NodeList) xPath.compile(expression).evaluate(doc, javax.xml.xpath.XPathConstants.NODESET);
+
+            XMLParser.parse(result, nodes);
+        } catch (Exception e) {
+            System.err.println("XPath filtering failed: " + e.getMessage());
+        }
+        return result;
+    }
 }

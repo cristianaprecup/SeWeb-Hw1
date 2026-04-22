@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><data><user><name>Andrei</name><surname>Ionescu</surname><cookingSkillLevel>Intermediate</cookingSkillLevel><preferredCuisine>Thai</preferredCuisine></user><user>
+<?xml version="1.0" encoding="UTF-8"?><data>
+   <user>
       <name>Maria</name>
       <surname>Popa</surname>
       <cookingSkillLevel>Beginner</cookingSkillLevel>
       <preferredCuisine>Italian</preferredCuisine>
    </user>
-   
    <recipes>
       <recipe id="1">
          <title>Creamy pumpkin pasta</title>
