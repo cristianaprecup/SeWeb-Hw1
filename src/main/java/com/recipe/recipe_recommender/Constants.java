@@ -24,4 +24,5 @@ public class Constants {
     public static final String XPATH_RECOMMEND_BY_SKILL_AND_CUISINE = "//recipe[difficulty = '%s' and cuisines/cuisine = '%s']";
     public static final String XPATH_FIRST_USER_CUISINE = "(//user)[1]/preferredCuisine";
     public static final String XPATH_RECIPE_BY_ID = "//recipe[@id = '%s']";
+    public static final String XPATH_RECIPES_BY_CUISINE = "//recipe[cuisines/cuisine = '%s']";
 }

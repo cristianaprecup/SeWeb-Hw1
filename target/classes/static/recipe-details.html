@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Details</title>
+    <style>
+        :root { --primary: #6f50cb; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--bg); }
+        nav { background: var(--primary); padding: 1rem 2rem; margin-bottom: 30px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(111, 80, 203, 0.3); }
+        .nav-links { display: flex; gap: 25px; }
+        nav a { color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+        .active-user-badge { background: rgba(255, 255, 255, 0.2); padding: 5px 15px; border-radius: 20px; color: white; font-size: 0.85rem; }
+        .recipe-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .detail-row { margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        label { font-weight: bold; color: var(--primary); display: block; margin-bottom: 5px; }
+        .back-btn { background: #6f50cb; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="nav-links">
+        <a href="user-form.html">1. User Settings</a>
+        <a href="recommendations.html">2. Smart Recs</a>
+        <a href="/api/recipes/view">3. XSL Catalog</a>
+        <a href="add-recipe.html">4. Add Recipe</a>
+        <a href="cuisine-filter.html">5. Cuisine Filter</a>
+        <a href="index.html">Home</a>
+    </div>
+    <div class="active-user-badge" id="navUserBadge">Profile: Active</div>
+</nav>
+<div class="recipe-card">
+    <h1 id="recipeTitle" style="color: var(--primary); margin-top: 0;">Loading...</h1>
+    <div class="detail-row"><label>ID:</label><span id="recipeId"></span></div>
+    <div class="detail-row"><label>Cuisines:</label><span id="recipeCuisines"></span></div>
+    <div class="detail-row"><label>Difficulty Level:</label><span id="recipeDifficulty"></span></div>
+    <button class="back-btn" onclick="window.history.back()">← Back to List</button>
+</div>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const recipeId = urlParams.get('id');
+    async function loadDetails() {
+        const response = await fetch(`/api/recipes/${recipeId}`);
+        if(response.ok) {
+            const recipe = await response.json();
+            document.getElementById('recipeTitle').innerText = recipe.title;
+            document.getElementById('recipeId').innerText = recipe.id;
+            document.getElementById('recipeCuisines').innerText = recipe.cuisines.join(', ');
+            document.getElementById('recipeDifficulty').innerText = recipe.difficulty;
+        }
+    }
+    loadDetails();
+    async function updateHeader() {
+        const response = await fetch('/api/recipes/user/current');
+        if (response.ok) {
+            const user = await response.json();
+            const badge = document.getElementById('navUserBadge');
+            if (badge) {
+                badge.innerText = "User: " + user.name + " " + user.surname;
+                badge.style.background = "rgba(255, 255, 255, 0.2)";
+            }
+        }
+    }
+    updateHeader();
+</script>
+</body>
+</html>

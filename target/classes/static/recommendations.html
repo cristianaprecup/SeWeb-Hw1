@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Recommendations</title>
+    <style>
+        :root { --primary: #6f50cb; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--bg); }
+        nav { background: var(--primary); padding: 1rem 2rem; margin-bottom: 30px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(111, 80, 203, 0.3); }
+        .nav-links { display: flex; gap: 25px; }
+        nav a { color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; }
+        nav a:hover { color: #ffeb3b; transform: translateY(-2px); }
+        .active-user-badge { background: rgba(255, 255, 255, 0.2); padding: 5px 15px; border-radius: 20px; color: white; font-size: 0.85rem; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .rec-card { background: #fffde7; border-left: 5px solid #fbc02d; padding: 20px; margin-bottom: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="nav-links">
+        <a href="user-form.html">1. User Settings</a>
+        <a href="recommendations.html">2. Smart Recs</a>
+        <a href="/api/recipes/view">3. XSL Catalog</a>
+        <a href="add-recipe.html">4. Add Recipe</a>
+        <a href="cuisine-filter.html">5. Cuisine Filter</a>
+        <a href="index.html">Home</a>
+    </div>
+    <div class="active-user-badge" id="navUserBadge">Profile: Active</div>
+</nav>
+<div class="container">
+    <h1>Recommended for You</h1>
+    <p>Based on your Skill Level and Preferred Cuisine:</p>
+    <div id="recommendationsList">Loading...</div>
+</div>
+<script>
+    async function loadRecs() {
+        const response = await fetch('/api/recipes/recommend/skill-cuisine');
+        const data = await response.json();
+        const list = document.getElementById('recommendationsList');
+        list.innerHTML = data.length ? data.map(r => `
+            <div class="rec-card">
+                <h3>${r.title}</h3>
+                <p><strong>Difficulty:</strong> ${r.difficulty} | <strong>Cuisines:</strong> ${r.cuisines.join(', ')}</p>
+            </div>
+        `).join('') : '<p>No exact matches found.</p>';
+    }
+    loadRecs();
+
+    async function updateHeader() {
+        try {
+            const response = await fetch('/api/recipes/user/current');
+            if (response.ok) {
+                const user = await response.json();
+                const badge = document.getElementById('navUserBadge');
+                if (badge) {
+                    badge.innerText = "User: " + user.name + " " + user.surname;
+                    badge.style.background = "rgba(255, 255, 255, 0.2)";
+                }
+            }
+        } catch (e) { console.error("Failed"); }
+    }
+    updateHeader();
+</script>
+</body>
+</html>

@@ -18,6 +18,18 @@ public class Recipe {
         this.difficulty = difficulty;
     }
 
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public List<String> getCuisines() { return cuisines; }
+    public void setCuisines(List<String> cuisines) { this.cuisines = cuisines; }
+
+    public String getDifficulty() { return difficulty; }
+    public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
+
     @Override
     public String toString() {
         return "Recipe{id=" + id + ", title='" + title + "', cuisines=" + cuisines + ", difficulty='" + difficulty + "'}";

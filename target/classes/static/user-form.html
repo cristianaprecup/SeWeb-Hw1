@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Settings</title>
+    <style>
+        :root { --primary: #6f50cb; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--bg); }
+
+        nav {
+            background: var(--primary);
+            padding: 1rem 2rem;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(111, 80, 203, 0.3);
+        }
+        .nav-links { display: flex; gap: 25px; }
+        nav a { color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; }
+        nav a:hover { color: #ffeb3b; transform: translateY(-2px); }
+
+        .active-user-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 500px; margin: 0 auto; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #555; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+        button:hover { opacity: 0.9; }
+
+        .profile-btn {
+            background: #f0f0f0;
+            color: #333;
+            font-size: 0.8rem;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            width: auto;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .profile-btn:hover { background: #e0e0e0; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-links">
+        <a href="user-form.html">1. User Settings</a>
+        <a href="recommendations.html">2. Smart Recs</a>
+        <a href="/api/recipes/view">3. XSL Catalog</a>
+        <a href="add-recipe.html">4. Add Recipe</a>
+        <a href="cuisine-filter.html">5. Cuisine Filter</a>
+        <a href="index.html">Home</a>
+    </div>
+    <div class="active-user-badge" id="navUserBadge">Profile: Loading...</div>
+</nav>
+
+<div class="container">
+    <h2>User Profile Settings</h2>
+    <div id="message" style="margin-bottom:15px; font-weight:bold;"></div>
+
+    <form id="userForm">
+        <div class="form-group">
+            <label>First Name:</label>
+            <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+            <label>Last Name:</label>
+            <input type="text" id="surname" required>
+        </div>
+        <div class="form-group">
+            <label>Cooking Skill Level:</label>
+            <select id="skill">
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Preferred Cuisine:</label>
+            <select id="cuisine">
+                <option value="Italian">Italian</option>
+                <option value="Asian">Asian</option>
+                <option value="British">British</option>
+                <option value="French">French</option>
+                <option value="Mexican">Mexican</option>
+                <option value="Mediterranean">Mediterranean</option>
+                <option value="Indian">Indian</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Japanese">Japanese</option>
+                <option value="American">American</option>
+                <option value="Middle Eastern">Middle Eastern</option>
+                <option value="Thai">Thai</option>
+                <option value="Greek">Greek</option>
+                <option value="Spanish">Spanish</option>
+            </select>
+        </div>
+        <button type="button" onclick="submitUser()">Update XML Profile</button>
+    </form>
+
+    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
+    <h3>Saved Profiles</h3>
+    <div id="savedUsersList" style="display: flex; flex-wrap: wrap;">
+        Loading...
+    </div>
+</div>
+
+<script>
+    function submitUser() {
+        const userData = {
+            name: document.getElementById('name').value,
+            surname: document.getElementById('surname').value,
+            cookingSkillLevel: document.getElementById('skill').value,
+            preferredCuisine: document.getElementById('cuisine').value
+        };
+
+        fetch('/api/recipes/user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData)
+        }).then(async response => {
+            const msg = await response.text();
+            const div = document.getElementById('message');
+            div.innerText = msg;
+            div.style.color = response.ok ? "#28a745" : "#dc3545";
+
+            if(response.ok) {
+                const badge = document.getElementById('navUserBadge');
+                if(badge) {
+                    badge.innerText = "User: " + userData.name + " " + userData.surname;
+                }
+                loadSavedProfiles();
+            }
+        });
+    }
+
+    async function loadSavedProfiles() {
+        try {
+            const response = await fetch('/api/recipes/users');
+            if (response.ok) {
+                const users = await response.json();
+                const listDiv = document.getElementById('savedUsersList');
+                if (users.length === 0) {
+                    listDiv.innerHTML = "<p style='font-size:0.8rem; color:#888;'>None found.</p>";
+                    return;
+                }
+                listDiv.innerHTML = users.map(u => `
+                    <button type="button" class="profile-btn"
+                            onclick="fillUser('${u.name}', '${u.surname}', '${u.cookingSkillLevel}', '${u.preferredCuisine}')">
+                        ${u.name} (${u.cookingSkillLevel})
+                    </button>
+                `).join('');
+            }
+        } catch (e) {
+            console.error("Failed");
+        }
+    }
+
+    async function fillUser(n, s, l, c) {
+        document.getElementById('name').value = n;
+        document.getElementById('surname').value = s;
+        document.getElementById('skill').value = l;
+        document.getElementById('cuisine').value = c;
+
+        const response = await fetch('/api/recipes/user/select', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: n, surname: s })
+        });
+
+        if (response.ok) {
+            updateHeader();
+            loadSavedProfiles();
+        }
+    }
+
+    async function updateHeader() {
+        try {
+            const response = await fetch('/api/recipes/user/current');
+            if (response.ok) {
+                const user = await response.json();
+                const badge = document.getElementById('navUserBadge');
+                if (badge) {
+                    badge.innerText = "User: " + user.name + " " + user.surname;
+                    badge.style.background = "rgba(255, 255, 255, 0.2)";
+                }
+            }
+        } catch (e) {
+            console.error("Failed");
+        }
+    }
+
+    updateHeader();
+    loadSavedProfiles();
+</script>
+
+</body>
+</html>

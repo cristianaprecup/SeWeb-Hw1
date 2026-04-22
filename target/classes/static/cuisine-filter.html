@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuisine Filter</title>
+    <style>
+        :root { --primary: #6f50cb; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--bg); }
+        nav { background: var(--primary); padding: 1rem 2rem; margin-bottom: 30px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(111, 80, 203, 0.3); }
+        .nav-links { display: flex; gap: 25px; }
+        nav a { color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; }
+        nav a:hover { color: #ffeb3b; transform: translateY(-2px); }
+        .active-user-badge { background: rgba(255, 255, 255, 0.2); padding: 5px 15px; border-radius: 20px; color: white; font-size: 0.85rem; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .filter-controls { display: flex; gap: 15px; margin-bottom: 25px; align-items: center; }
+        select { padding: 10px; border-radius: 6px; border: 1px solid #ddd; flex-grow: 1; }
+        button { padding: 10px 25px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="nav-links">
+        <a href="user-form.html">1. User Settings</a>
+        <a href="recommendations.html">2. Smart Recs</a>
+        <a href="/api/recipes/view">3. XSL Catalog</a>
+        <a href="add-recipe.html">4. Add Recipe</a>
+        <a href="cuisine-filter.html">5. Cuisine Filter</a>
+        <a href="index.html">Home</a>
+    </div>
+    <div class="active-user-badge" id="navUserBadge">Profile: Active</div>
+</nav>
+<div class="container">
+    <h2>XPath Cuisine Search</h2>
+    <div class="filter-controls">
+        <select id="cuisineSelect">
+            <option value="Italian">Italian</option><option value="Asian">Asian</option><option value="British">British</option>
+            <option value="French">French</option><option value="Mexican">Mexican</option><option value="Mediterranean">Mediterranean</option>
+            <option value="Indian">Indian</option><option value="Chinese">Chinese</option><option value="Japanese">Japanese</option>
+            <option value="American">American</option><option value="Middle Eastern">Middle Eastern</option><option value="Thai">Thai</option>
+            <option value="Greek">Greek</option><option value="Spanish">Spanish</option>
+        </select>
+        <button onclick="filterRecipes()">Execute XPath Query</button>
+    </div>
+    <table id="resultsTable" style="display:none">
+        <thead><tr><th>ID</th><th>Title</th><th>Difficulty</th><th>Cuisines</th></tr></thead>
+        <tbody id="resultsBody"></tbody>
+    </table>
+</div>
+<script>
+    function filterRecipes() {
+        const val = document.getElementById('cuisineSelect').value;
+        fetch(`/api/recipes/filter/cuisine?cuisine=${val}`).then(r => r.json()).then(data => {
+            const tbody = document.getElementById('resultsBody');
+            tbody.innerHTML = data.map(r => `<tr><td>${r.id}</td><td>${r.title}</td><td>${r.difficulty}</td><td>${r.cuisines.join(', ')}</td></tr>`).join('');
+            document.getElementById('resultsTable').style.display = 'table';
+        });
+    }
+</script>
+<script>
+    async function updateHeader() {
+        try {
+            const response = await fetch('/api/recipes/user/current');
+            if (response.ok) {
+                const user = await response.json();
+                const badge = document.getElementById('navUserBadge');
+                if (badge) {
+                    badge.innerText = "User: " + user.name + " " + user.surname;
+                    badge.style.background = "rgba(255, 255, 255, 0.2)";
+                }
+            }
+        } catch (e) {
+            console.error("Header update failed");
+        }
+    }
+    updateHeader();
+</script>
+</body>
+</html>
